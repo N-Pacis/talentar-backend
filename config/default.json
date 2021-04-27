@@ -1,3 +1,5 @@
 {
-  "PORT": ""
+  "PORT": "",
+  "DATABASE_USER": "",
+  "DATABASE_PASSWORD": ""
 }

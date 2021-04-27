@@ -1,3 +1,5 @@
 {
-  "PORT": "app_port"
+  "PORT": "app_port",
+  "DATABASE_USER": "app_database_user",
+  "DATABASE_PASSWORD": "app_database_password"
 }
