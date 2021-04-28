@@ -20,19 +20,19 @@ Posting a new competition
 
 
 #                  Login And Registration Of A User
-#Registration:
+# Registration:
        This page will contain forms to register a new user with fields including: 
-First name
-Last name
-Valid email
-Username
-Location
-Password
-Password verification
+- First name
+- Last name
+- Valid email
+- Username
+- Location
+- Password
+- Password verification
 # Login:
      This page will contain form to login a user including the following fields
-Username
-Password
+- Username
+- Password
 
 # Top Bar
    A top bar including the logo,website name, username and current user profile pic and also a button to access your profile and also the option to search a user by username and also the option to logout.
