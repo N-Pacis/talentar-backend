@@ -14,7 +14,7 @@ A page where we show only posts with category of  paintings & drawings
 A page where we show only posts with category of design
 A page where we list all competitions
 Searching of A User
-Posting of a new work
+Posting of a new work/post
 Profile management including follow feature.
 Posting a new competition
 
