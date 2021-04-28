@@ -3,9 +3,9 @@
 
 **TALENTAR** _is an online artist,photographers,culture,designers and talent promotion system that will help local artists and photographers to publish their work online, get feedback and clients easily and also join worldwide competitions and later get awarded. The system’s intention is to simplify how artists,photographers and designers publish their work and also how people can join online competitions remotely. Competitions will be held on our website and members will upload their work according to competition rules._
 
-#Note:
+# Note:
       This is A Backend Repository to handle the backend codes written in Node Js/Express Js
-#Planning And Development Process
+# Planning And Development Process
 The system is intended to be developed in less than four months with basic and core functionalities including:
 Login And Registration Of A User
 A homepage where we show trending posts,competitions and works and also all works in general and sort them according to latest.
@@ -20,7 +20,7 @@ Posting a new competition
 
 
 #                  Login And Registration Of A User
-Registration:
+#Registration:
        This page will contain forms to register a new user with fields including: 
 First name
 Last name
@@ -29,18 +29,18 @@ Username
 Location
 Password
 Password verification
-#Login:
+# Login:
      This page will contain form to login a user including the following fields
 Username
 Password
 
-#Top Bar
+# Top Bar
    A top bar including the logo,website name, username and current user profile pic and also a button to access your profile and also the option to search a user by username and also the option to logout.
     
-#Homepage
+# Homepage
 This is a page where we will showcase the trending competitions,designs and works of the users and display them according to the most liked and also display a few of them and also display the other works and competitions sort them according to the latest. We will allow a user to click on a post and view more information about the post and also allow them to click on a user and go to his/her profile and also allow a user to click on the competition and view more details of the competition. There will be options to like or dislike the post.
 
-#Competition Page
+# Competition Page
 This is a page where we display the list of competitions which also has three options:
 All
 Ongoing
