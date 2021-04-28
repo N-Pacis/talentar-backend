@@ -1,5 +1,5 @@
 # talentar-backend
-#About this project:
+# About this project:
 
 **TALENTAR** _is an online artist,photographers,culture,designers and talent promotion system that will help local artists and photographers to publish their work online, get feedback and clients easily and also join worldwide competitions and later get awarded. The system’s intention is to simplify how artists,photographers and designers publish their work and also how people can join online competitions remotely. Competitions will be held on our website and members will upload their work according to competition rules._
 
