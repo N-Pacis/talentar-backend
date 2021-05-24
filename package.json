@@ -5,7 +5,7 @@
     "main": "server.js",
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1",
-        "start": "set app_database_user=talentar-backend-team & set app_database_password='talentar12345' & set app_port=5000 & set DEBUG=app:*,db:*,error & nodemon server.js"
+        "start": "set app_database_user=talentar-backend-team & set app_database_password='talentar12345' & set app_port=5000 & set app_jwt_key=talentarJWTKey & set DEBUG=app:*,db:*,error & nodemon server.js"
     },
     "repository": {
         "type": "git",

@@ -1,5 +1,6 @@
 {
   "PORT": "app_port",
   "DATABASE_USER": "app_database_user",
-  "DATABASE_PASSWORD": "app_database_password"
+  "DATABASE_PASSWORD": "app_database_password",
+  "JWT": "app_jwt_key"
 }
