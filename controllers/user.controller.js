@@ -1,4 +1,4 @@
-const {validateRegistration,User} = require("../models/user.model")
+const {validateRegistration,validateLogin,User} = require("../models/user.model")
 const _= require("lodash")
 const bcrypt = require("bcrypt")
 const debug = require("debug")
@@ -25,7 +25,6 @@ exports.createUser = async(req,res)=>{
            const token = user.generateAuthToken()
            const time = new Date()
            const hours = time.getHours()
-           console.log(hours)
            const greeting = (hours < 12 && hours>0)? 'Good Morning' : (hours > 12 && hours<17) ? 'Good Afternoon' : 'Good Evening'
            res.header('talentar-auth-token',token).send(`${greeting}  ${user.Username}`)
        }
@@ -38,4 +37,26 @@ exports.createUser = async(req,res)=>{
        res.status(500).send("Something Failed! Try Again!");
        error(ex.message)
    }
+}
+
+exports.login = async(req,res)=>{
+    try{
+        const {error} = validateLogin(req.body)
+        if(error) return res.status(400).send(error.details[0].message)
+
+        let user = await User.findOne({Username:req.body.Username})
+        if(!user) return res.status(400).send("Invalid Username or Password!")
+
+        const validPassword = await bcrypt.compare(req.body.Password,user.Password)
+        if(!validPassword) return res.status(400).send("Invalid Username or Password!")
+
+        const token = user.generateAuthToken()
+        const time = new Date()
+        const hours = time.getHours()
+        const greeting = (hours < 12 && hours>0)? 'Good Morning' : (hours > 12 && hours<17) ? 'Good Afternoon' : 'Good Evening'
+        res.header('talentar-auth-token',token).send(`${greeting}  ${user.Username}`)
+    }
+    catch(ex){
+        res.status(400).send(ex.message)
+    }
 }

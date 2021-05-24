@@ -14,6 +14,14 @@ function validateUserRegistration(user){
     return Joi.validate(user,schema)
 }
 
+function validateUserLogin(user){
+    const schema = {
+        Username:Joi.string().min(4).required(),
+        Password:Joi.string().min(6).required(),
+    }
+    return Joi.validate(user,schema)
+}
+
 const userSchema = new mongoose.Schema({
     firstname:{
         type:String,
@@ -43,7 +51,8 @@ const userSchema = new mongoose.Schema({
         required:true
     },
     Followers:{
-        type:Array
+        type:Array,
+        default:[]
     }
 })
 userSchema.methods.generateAuthToken = function(){
@@ -54,4 +63,5 @@ userSchema.methods.generateAuthToken = function(){
 const User = mongoose.model('user',userSchema)
 
 exports.validateRegistration = validateUserRegistration
+exports.validateLogin = validateUserLogin
 exports.User = User
