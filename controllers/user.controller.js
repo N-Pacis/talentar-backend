@@ -3,7 +3,7 @@ const _= require("lodash")
 const bcrypt = require("bcrypt")
 const debug = require("debug")
 const error = debug('error')
-const {uploadFile} = require("../utils/fileUpload.utils")
+const fs = require("fs")
 
 exports.getUserInformation = async(req,res)=>{
    try{
@@ -19,7 +19,8 @@ exports.getUserInformation = async(req,res)=>{
           Bio:user.Bio,
           Category:user.Category,
           Location:user.Location,
-          Status:user.Status
+          Status:user.Status,
+          
       })
    }
    catch(ex){
@@ -94,6 +95,15 @@ exports.updateUserInformation = async(req,res)=>{
         if(error) return res.status(400).send(error.details[0].message)
         try{
             let {firstname,lastname,Email,Username,Followers,Bio,Category,Location,Status} = req.body
+            req.file.path == "" ? req.file.path = "profileUploads/defaultProfilePicture.jpg" : null
+            
+            let oldProfilePicture = await User.findOne({_id:req.params.userId}).select("profilePicture")
+            fs.unlink(oldProfilePicture.profilePicture,(err)=>{
+                if(err){
+                    console.log("Error deleting the file:" +err)
+                }
+            })
+
             let user = await User.findByIdAndUpdate(req.params.userId,{
                 firstname: firstname,
                 lastname:  lastname,
@@ -101,16 +111,18 @@ exports.updateUserInformation = async(req,res)=>{
                 Username:  Username,
                 Followers: Followers,
                 Bio:       Bio,
+                profilePicture: req.file.path,
                 Category:  Category,
                 Location:  Location,
-            },{new:true})
-
+                Status:    Status
+            },{new:true}) 
+            let profilePictureUrl = ((user.profilePicture).replace("\\","/")).replace(" ","%20")
             res.status(200).send({
                 Firstname:user.firstname,
                 Lastname:user.lastname,
                 Email:user.Email,
                 Username:user.Username,
-                profilePictureUrl:user.profilePicture,
+                profilePictureUrl: profilePictureUrl,
                 Followers:user.Followers.length,
                 Bio:user.Bio,
                 Category:user.Category,
@@ -124,5 +136,38 @@ exports.updateUserInformation = async(req,res)=>{
     }
     catch(ex){
         res.status(500).send(ex.message)
+    }
+}
+
+exports.changePassword = async(req,res)=>{
+    try{
+        const {error} = validatePasswordChange(req.body)
+        if(error) return res.status(400).send(error.details[0].message)
+
+        let oldPassword = await User.findOne({_id:req.params.id}).select("Password")
+        
+        if(req.body.oldPassword != oldPassword){
+            return res.status(400).send("Invalid old password!")
+        }
+        
+        if(req.body.repeatNewPassword != req.body.newPassword){
+            return res.status(400).send("The new passwords must match!")
+        }
+
+        await User.findByIdAndUpdate(req.params.id,{Password:req.body.newPassword},{new:true})
+        res.send("Password Updated Successfully");
+    }
+    catch(ex){
+        res.status(400).send(ex.message)
+    }
+}
+
+exports.deleteAccount = async(req,res)=>{
+    try{
+       await User.findByIdAndRemove(req.params.userId)
+       res.status(200).send("User deleted successfully")
+    }
+    catch(ex){
+       res.status(400).send(ex.message)
     }
 }

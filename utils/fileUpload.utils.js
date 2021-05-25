@@ -1,21 +1,23 @@
 const multer = require("multer")
 
-exports.uploadFile=(destination,mimeTypes)=>{
+exports.uploadFile=(destination)=>{
     const storage = multer.diskStorage({
         destination: function(req,file,cb){
-            cb(null,`./${destination}/`);
+            cb(null,`./profileUploads/`);
         },
         filename: function(req,file,cb){
-            cb(null,new Date().toISOString() + file.originalName)
+            let date = Math.random() * 10000 
+            cb(null,date + file.originalname)
         }
     })
 
     const fileFilter = (req,file,cb)=>{
-        if(mimeTypes.join('\|\|')){
+        if(file.mimetype==='image/jpeg' ||file.mimetype==='image/jpg' || file.mimetype==='image/png'){
             cb(null,true)
         }
         else{
-            cb(new Error("File Type is not supported"),false)
+            cb("File Type not supported",false)
+            console.log(file)
         }
     }
 
@@ -26,4 +28,5 @@ exports.uploadFile=(destination,mimeTypes)=>{
         },
         fileFilter: fileFilter
     })
+    return upload
 }

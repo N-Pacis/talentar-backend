@@ -8,7 +8,7 @@ function validateUserRegistration(user){
         firstname:Joi.string().min(3).required(),
         lastname:Joi.string().min(3).required(),
         Email:Joi.string().min(5).required(),
-        Username:Joi.string().min(4).required(),
+        Username:Joi.string().min(3).required(),
         Password:Joi.string().min(6).required(),
         confirmPassword:Joi.string().min(6).required()
     }
@@ -38,6 +38,15 @@ function validateUserUpdate(user){
     return Joi.validate(user,schema)
 }
 
+function validatePasswordChange(user){
+    const schema = {
+        oldPassword:Joi.string().min(6).required(),
+        newPassword:Joi.string().min(6).required(),
+        repeatNewPassword:Joi.string().min(6).required(),
+    }
+    return Joi.validate(user,schema)
+}
+
 const userSchema = new mongoose.Schema({
     firstname:{
         type:String,
@@ -57,7 +66,7 @@ const userSchema = new mongoose.Schema({
     },
     Username:{
         type:String,
-        minLength:4,
+        minLength:3,
         unique:true,
         required:true
     },
@@ -103,4 +112,5 @@ const User = mongoose.model('user',userSchema)
 exports.validateRegistration = validateUserRegistration
 exports.validateLogin = validateUserLogin
 exports.validateUpdate=  validateUserUpdate
+exports.validatePasswordChange=  validatePasswordChange
 exports.User = User
