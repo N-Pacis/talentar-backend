@@ -14,7 +14,7 @@ app.use(bodyParser.urlencoded({extended:true}))
 
 //connecting to the database
 let password = config.get("DATABASE_PASSWORD")
-mongoose.connect(`mongodb+srv://talentar-backend-team:talentar12345@talentar-backend.m9eua.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`,{useCreateIndex:true,useNewUrlParser:true,useFindAndModify:false,useUnifiedTopology:true})
+mongoose.connect(`mongodb+srv://talentar-backend-team:talentar12345@talentar-backend.m9eua.mongodb.net/talentarDatabase?retryWrites=true&w=majority`,{useCreateIndex:true,useNewUrlParser:true,useFindAndModify:false,useUnifiedTopology:true})
     .then(()=>{
         dbDebug("Connected to the database successfully...")
     })
