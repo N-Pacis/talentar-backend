@@ -53,6 +53,10 @@ const userSchema = new mongoose.Schema({
     Followers:{
         type:Array,
         default:[]
+    },
+    profilePicture:{
+        type:String,
+        default:'profileUploads/defaultProfilePicture.jpg'
     }
 })
 userSchema.methods.generateAuthToken = function(){

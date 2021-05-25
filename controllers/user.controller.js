@@ -3,6 +3,16 @@ const _= require("lodash")
 const bcrypt = require("bcrypt")
 const debug = require("debug")
 const error = debug('error')
+const {uploadFile} = require("../utils/fileUpload.utils")
+
+exports.getUserInformation = async(req,res)=>{
+   try{
+
+   }
+   catch(ex){
+
+   }
+}
 
 exports.createUser = async(req,res)=>{
    try{
