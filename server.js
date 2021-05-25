@@ -11,6 +11,7 @@ const mongoose = require('mongoose')
 
 //calling the bodyParser middleware that help us receive form values from the forms
 app.use(bodyParser.urlencoded({extended:true}))
+app.use(express.json())
 app.use(express.static("profileUploads"))
 
 //calling the routes
