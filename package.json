@@ -5,7 +5,7 @@
     "main": "server.js",
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1",
-        "start": "set app_database_user=talentar-backend-team & set app_database_password='talentar12345' & set app_port=5000 & set app_jwt_key=talentarJWTKey & set DEBUG=app:*,db:*,error & nodemon server.js"
+        "start": "set app_database_user=talentar-backend-team & set app_database_password='talentar12345' & set app_port=5000 & set app_jwt_key=talentarJWTKey & set app_email_user=pacisnkubito@gmail.com & set app_email_password=stephencurry & set DEBUG=app:*,db:*,error & nodemon server.js"
     },
     "repository": {
         "type": "git",
@@ -31,6 +31,7 @@
         "lodash": "^4.17.21",
         "mongoose": "^5.12.5",
         "multer": "^1.4.2",
+        "nodemailer": "^6.6.1",
         "nodemon": "^2.0.7"
     }
 }

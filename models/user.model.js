@@ -9,8 +9,7 @@ function validateUserRegistration(user){
         lastname:Joi.string().min(3).required(),
         Email:Joi.string().min(5).required(),
         Username:Joi.string().min(3).required(),
-        Password:Joi.string().min(6).required(),
-        confirmPassword:Joi.string().min(6).required()
+        Password:Joi.string().min(6).required()
     }
     return Joi.validate(user,schema)
 }
@@ -41,8 +40,14 @@ function validateUserUpdate(user){
 function validatePasswordChange(user){
     const schema = {
         oldPassword:Joi.string().min(6).required(),
-        newPassword:Joi.string().min(6).required(),
-        repeatNewPassword:Joi.string().min(6).required(),
+        newPassword:Joi.string().min(6).required()
+    }
+    return Joi.validate(user,schema)
+}
+
+function validatePasswordReset(user){
+    const schema = {
+        newPassword:Joi.string().min(6).required()
     }
     return Joi.validate(user,schema)
 }
@@ -113,4 +118,5 @@ exports.validateRegistration = validateUserRegistration
 exports.validateLogin = validateUserLogin
 exports.validateUpdate=  validateUserUpdate
 exports.validatePasswordChange =  validatePasswordChange
+exports.validatePasswordReset = validatePasswordReset
 exports.User = User

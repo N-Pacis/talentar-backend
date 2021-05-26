@@ -2,5 +2,7 @@
   "PORT": "app_port",
   "DATABASE_USER": "app_database_user",
   "DATABASE_PASSWORD": "app_database_password",
-  "JWT": "app_jwt_key"
+  "JWT": "app_jwt_key",
+  "email_password":"app_email_password",
+  "email_user":"app_email_user"
 }

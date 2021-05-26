@@ -1,9 +1,10 @@
-const {validateRegistration,validateLogin,validateUpdate,validatePasswordChange,User} = require("../models/user.model")
+const {validateRegistration,validateLogin,validateUpdate,validatePasswordChange,validatePasswordReset,User} = require("../models/user.model")
 const _= require("lodash")
 const bcrypt = require("bcrypt")
 const debug = require("debug")
 const error = debug('error')
 const fs = require("fs")
+const {sendEmail} = require("../utils/emailConfig.utils");
 
 exports.getUserInformation = async(req,res)=>{
    try{
@@ -32,10 +33,6 @@ exports.createUser = async(req,res)=>{
    try{
        const {error} = validateRegistration(req.body)
        if(error) return res.status(400).send(error.details[0].message)
-
-       if(req.body.Password != req.body.confirmPassword){
-           return res.status(400).send("Both passwords must match!")
-       }
 
        let user = await User.findOne({Username:req.body.Username})
        if(user) return res.status(400).send("Username is already registered!")
@@ -147,17 +144,47 @@ exports.changePassword = async(req,res)=>{
         let oldPassword = await User.findOne({_id:req.params.userId}).select("Password")
         let validatePassword = await bcrypt.compare(req.body.oldPassword , oldPassword.Password)
         if(!validatePassword) return res.status(400).send("Invalid old password!")
-
-        
-        if(req.body.repeatNewPassword != req.body.newPassword){
-            return res.status(400).send("The new passwords must match!")
-        }
-
         let newPasswordSalt = await bcrypt.genSalt(10)
         let newPassword = await bcrypt.hash(req.body.newPassword,newPasswordSalt)
 
         await User.findByIdAndUpdate(req.params.userId,{Password:newPassword},{new:true})
         res.send("Password Updated Successfully");
+    }
+    catch(ex){
+        res.status(400).send(ex.message)
+    }
+}
+
+exports.sendResetLink = async(req,res)=>{
+    try{
+        let user = await User.findById(req.params.userId).select("Email")
+        let identifierSalt = await bcrypt.genSalt(10)
+        let identifier = await bcrypt.hash(req.params.userId,identifierSalt)
+        let subject = "TALENTAR: Reset Your password by clicking the link below. If you have not requested this please ignore the message"
+        let html = `<h1>TALENTAR PASSWORD RESET LINK</h1><br><a href='http://localhost:5000/resetPassword?t=${identifier}'>Click Here To Reset Your Password</a>`
+
+        sendEmail(user.Email,subject,html)
+
+        res.status(200).send(`Sent the verification link to ${user.Email}`)
+    }
+    catch(ex){
+        res.status(400).send(ex.message)
+    }
+}
+
+exports.resetPassword = async(req,res)=>{
+    try{
+        let validateToken = await bcrypt.compare(req.params.userId,req.params.token)
+        if(!validateToken) return res.status(400).send("Invalid Token!")
+
+        const {error} = validatePasswordReset(req.body)
+        if(error) return res.status(400).send(error.details[0].message)
+
+        let salt = await bcrypt.genSalt(10)
+        let newPassword = await bcrypt.hash(req.body.newPassword,salt)
+
+        await User.findByIdAndUpdate(req.params.userId,{Password:newPassword},{new:true})
+        res.status(200).send("Reset Password Successfully!")
     }
     catch(ex){
         res.status(400).send(ex.message)

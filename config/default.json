@@ -2,5 +2,7 @@
   "PORT": "",
   "DATABASE_USER": "",
   "DATABASE_PASSWORD": "",
-  "JWT": ""
+  "JWT": "",
+  "email_user": "",
+  "email_password": ""
 }
