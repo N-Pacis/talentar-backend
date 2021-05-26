@@ -17,7 +17,7 @@ function validateUserRegistration(user){
 
 function validateUserLogin(user){
     const schema = {
-        Username:Joi.string().min(4).required(),
+        Username:Joi.string().min(3).required(),
         Password:Joi.string().min(6).required(),
     }
     return Joi.validate(user,schema)
@@ -28,7 +28,7 @@ function validateUserUpdate(user){
         firstname:Joi.string().min(3).required(),
         lastname:Joi.string().min(3).required(),
         Email:Joi.string().min(5).required(),
-        Username:Joi.string().min(4).required(),
+        Username:Joi.string().min(3).required(),
         Followers:Joi.array(),
         Bio:Joi.string().max(250),
         Category:Joi.string().valid('Standard','Photographer','Artist','Designer','Singer'),
@@ -112,5 +112,5 @@ const User = mongoose.model('user',userSchema)
 exports.validateRegistration = validateUserRegistration
 exports.validateLogin = validateUserLogin
 exports.validateUpdate=  validateUserUpdate
-exports.validatePasswordChange=  validatePasswordChange
+exports.validatePasswordChange =  validatePasswordChange
 exports.User = User

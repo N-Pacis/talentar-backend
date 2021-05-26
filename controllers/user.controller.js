@@ -1,4 +1,4 @@
-const {validateRegistration,validateLogin,validateUpdate,User} = require("../models/user.model")
+const {validateRegistration,validateLogin,validateUpdate,validatePasswordChange,User} = require("../models/user.model")
 const _= require("lodash")
 const bcrypt = require("bcrypt")
 const debug = require("debug")
@@ -144,17 +144,19 @@ exports.changePassword = async(req,res)=>{
         const {error} = validatePasswordChange(req.body)
         if(error) return res.status(400).send(error.details[0].message)
 
-        let oldPassword = await User.findOne({_id:req.params.id}).select("Password")
-        
-        if(req.body.oldPassword != oldPassword){
-            return res.status(400).send("Invalid old password!")
-        }
+        let oldPassword = await User.findOne({_id:req.params.userId}).select("Password")
+        let validatePassword = await bcrypt.compare(req.body.oldPassword , oldPassword.Password)
+        if(!validatePassword) return res.status(400).send("Invalid old password!")
+
         
         if(req.body.repeatNewPassword != req.body.newPassword){
             return res.status(400).send("The new passwords must match!")
         }
 
-        await User.findByIdAndUpdate(req.params.id,{Password:req.body.newPassword},{new:true})
+        let newPasswordSalt = await bcrypt.genSalt(10)
+        let newPassword = await bcrypt.hash(req.body.newPassword,newPasswordSalt)
+
+        await User.findByIdAndUpdate(req.params.userId,{Password:newPassword},{new:true})
         res.send("Password Updated Successfully");
     }
     catch(ex){
