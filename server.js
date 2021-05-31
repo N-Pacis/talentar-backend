@@ -15,7 +15,8 @@ app.use(express.json())
 app.use(express.static("profileUploads"))
 
 //calling the routes
-app.use(require("./routes/user.route"))
+app.use(require("./routes/user.route"));
+app.use(require("./routes/post.route"))
 
 //connecting to the database
 let password = config.get("DATABASE_PASSWORD")
