@@ -35,16 +35,13 @@ const postSchema = new mongoose.Schema({
     }
 })
 
-function postValidation(post) {
+exports.postValidation=(post)=> {
     const schema = {
         caption: Joi.string(),
         Category: Joi.string().valid('Photography', 'Art', 'Design', 'Singing'),
         location: Joi.string()
     }
-    return Joi.validate(post, schema)
+    return Joi.validate(post,schema)
 }
 
-const Post = mongoose.model("posts", postSchema);
-
-exports.postValidation = postValidation;
-exports.Post = Post;
+module.exports.Post = mongoose.model("posts", postSchema);

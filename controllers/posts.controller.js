@@ -1,7 +1,8 @@
-const { Post, postValidation } = require("../models/user.model");
+
 const { formatResult } = require("../utils/formatter");
 const _ = require("lodash")
-const debug = require("debug")
+const debug = require("debug");
+const { Post, postValidation } = require("../models/posts.model");
 const error = debug('error')
 
 
@@ -15,15 +16,15 @@ exports.creatingPost = async (req, res) => {
         }
 
         let newPost = new Post(_.pick(req.body, ['caption', 'Category', 'location']))
-        post.userId = req.user._id;
-        post.url = req.file.path;
+        newPost.userId = req.user._id;
+        newPost.url = req.file.path;
 
         try {
             await newPost.save()
             res.send(formatResult({
                 status: 201,
                 message: "post created successfully",
-                data: post
+                data: newPost
             }))
         }
         catch (ex) {
