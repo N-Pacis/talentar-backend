@@ -3,7 +3,6 @@ const { formatResult } = require("../utils/formatter");
 const _ = require("lodash")
 const debug = require("debug");
 const { Post, postValidation } = require("../models/posts.model");
-const error = debug('error')
 
 
 exports.creatingPost = async (req, res) => {
