@@ -38,7 +38,7 @@ const postSchema = new mongoose.Schema({
 exports.postValidation=(post)=> {
     const schema = {
         caption: Joi.string(),
-        Category: Joi.string().valid('Photography', 'Art', 'Design', 'Singing'),
+        Category: Joi.string().valid('Photography', 'Art', 'Design', 'Singing').required(),
         location: Joi.string()
     }
     return Joi.validate(post,schema)

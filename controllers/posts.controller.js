@@ -18,6 +18,7 @@ exports.creatingPost = async (req, res) => {
         let newPost = new Post(_.pick(req.body, ['caption', 'Category', 'location']))
         newPost.userId = req.user._id;
         newPost.url = req.file.path;
+        newPost.url = ((newPost.url).replace("\\","/")).replace(" ","%20")
 
         try {
             await newPost.save()

@@ -3,7 +3,7 @@ const multer = require("multer")
 exports.uploadFile=(destination)=>{
     const storage = multer.diskStorage({
         destination: function(req,file,cb){
-            cb(null,`./profileUploads/`);
+            cb(null,`./${destination}/`);
         },
         filename: function(req,file,cb){
             let date = Math.random() * 10000 
