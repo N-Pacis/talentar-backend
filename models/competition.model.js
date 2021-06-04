@@ -8,9 +8,8 @@ function validateCompetitionRegistration(competition){
         Description:Joi.string().min(2).required(),
         DueDate:Joi.date().required(),
         Requirements:Joi.array(),
-        CoverPhoto:Joi.binary().encoding('base64').required()
     }
-    Joi.validate(competition,schema)
+    return Joi.validate(competition,schema)
 }
 
 const competitionSchema = new mongoose.Schema({
@@ -44,6 +43,10 @@ const competitionSchema = new mongoose.Schema({
     CreatedBy:{
         type:String,
         required:true
+    },
+    Members:{
+        type:Array,
+        default:[],
     }
 })
 

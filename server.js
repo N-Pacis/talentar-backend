@@ -14,10 +14,12 @@ app.use(bodyParser.urlencoded({extended:true}))
 app.use(express.json())
 app.use(express.static("profileUploads"))
 app.use(express.static("postsImages"))
+app.use(express.static("competitionImages"))
 
 //calling the routes
 app.use(require("./routes/user.route"));
 app.use(require("./routes/post.route"))
+app.use(require("./routes/competition.route"))
 
 //connecting to the database
 let password = config.get("DATABASE_PASSWORD")

@@ -3,7 +3,6 @@ const _= require("lodash")
 const bcrypt = require("bcrypt")
 const debug = require("debug")
 const error = debug('error')
-const fs = require("fs")
 const {sendEmail} = require("../utils/emailConfig.utils");
 
 exports.getUserInformation = async(req,res)=>{

@@ -30,12 +30,10 @@ exports.creatingPost = async (req, res) => {
         }
         catch (ex) {
             res.status(400).send(ex.message);
-            error(ex.message)
         }
     }
     catch (ex) {
         res.status(500).send("Something Failed! Try Again!");
-        error(ex)
     }
 }
 
