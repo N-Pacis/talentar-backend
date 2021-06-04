@@ -15,7 +15,6 @@ app.use(express.json())
 app.use(express.static("profileUploads"))
 app.use(express.static("postsImages"))
 app.use(express.static("competitionImages"))
-require('../utils/productionEnv.util')(app)
 
 //calling the routes
 app.use(require("./routes/user.route"));
