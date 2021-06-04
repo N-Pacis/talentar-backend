@@ -1,4 +1,4 @@
-const {createCompetition,getCompetition,getAllCompetitions} = require("../controllers/competition.controller")
+const {createCompetition,getCompetition,getAllCompetitions,deleteCompetition} = require("../controllers/competition.controller")
 const express = require("express");
 const router = express.Router();
 const { authenticate } = require("../middlewares/auth.middleware");
@@ -11,4 +11,5 @@ router.get("/competitions",authenticate,getAllCompetitions)
 
 router.post("/competitions/new",[upload.single('CoverPhoto'),authenticate],createCompetition)
 
+router.delete("/competitions/:competitionId",authenticate,deleteCompetition)
 module.exports=router

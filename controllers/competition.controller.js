@@ -68,3 +68,25 @@ exports.createCompetition = async(req,res)=>{
            res.status(500).send(ex.message)
     }
 }
+
+exports.deleteCompetition = async(req,res)=>{
+    try{
+        let competition = await Competition.findByIdAndRemove(req.params.competitionId)
+        if(!competition){
+            return res.send(formatResult({
+                status: 404,
+                message: "no competition found"
+            }))
+        }
+        if(req.user._id != competition.CreatedBy){
+            return res.send(formatResult({
+                status: 401,
+                message: "Access denied you can't delete this competition"
+            }))
+        }
+        return res.send("Competition deleted successfully")
+    }
+    catch(ex){
+         res.status(500).send(ex.message)
+    }
+}
