@@ -13,6 +13,7 @@ const mongoose = require('mongoose')
 app.use(bodyParser.urlencoded({extended:true}))
 app.use(express.json())
 app.use(express.static("profileUploads"))
+app.use(express.static("postsImages"))
 
 //calling the routes
 app.use(require("./routes/user.route"));
