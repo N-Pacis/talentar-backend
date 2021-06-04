@@ -8,6 +8,7 @@ const upload = uploadFile("competitionImages")
 router.get("/competitions/:competitionId",authenticate,getCompetition)
 
 router.get("/competitions",authenticate,getAllCompetitions)
+
 router.post("/competitions/new",[upload.single('CoverPhoto'),authenticate],createCompetition)
 
 module.exports=router
