@@ -1,5 +1,6 @@
 const mongoose = require("mongoose")
 const Joi = require('joi')
+Joi.objectId = require('joi-objectid')(Joi)
 
 function validateCompetitionRegistration(competition){
     const schema = {
@@ -10,6 +11,15 @@ function validateCompetitionRegistration(competition){
         Requirements:Joi.array(),
     }
     return Joi.validate(competition,schema)
+}
+
+function validateMemberRegistration(Member){
+    const schema = {
+        userId:Joi.objectId().required(),
+        votes:Joi.array().required(),
+        status:Joi.string().valid('Approved','Pending').required()
+    }
+    return Joi.validate(Member,schema)
 }
 
 const competitionSchema = new mongoose.Schema({
@@ -50,7 +60,9 @@ const competitionSchema = new mongoose.Schema({
     }
 })
 
+
 const Competition = mongoose.model('competition',competitionSchema)
 
 exports.Competition = Competition
 exports.validateCompetition = validateCompetitionRegistration
+exports.validateMemberRegistration = validateMemberRegistration

@@ -1,4 +1,6 @@
-const {validateCompetition,Competition} = require("../models/competition.model")
+const {validateCompetition,validateMemberRegistration,Competition} = require("../models/competition.model")
+const {User} = require("../models/user.model")
+
 const _ = require("lodash")
 const { formatResult } = require("../utils/formatter");
 
@@ -23,7 +25,7 @@ exports.getCompetition = async(req,res)=>{
         if(!competition){
             return res.send(formatResult({
                 status: 404,
-                message: "no post found"
+                message: "no competition found"
             }))
         }
 
@@ -88,5 +90,33 @@ exports.deleteCompetition = async(req,res)=>{
     }
     catch(ex){
          res.status(500).send(ex.message)
+    }
+}
+
+exports.addMember = async(req,res)=>{
+    try{
+        const {error} = validateMemberRegistration(req.body)
+        if(error) return res.status(400).send(error.details[0].message)
+
+        let competition = await Competition.findById(req.params.competitionId)
+        if(!competition) return res.status(400).send("The competition does not exist")
+
+        let user = await User.findById(req.body.userId)
+        if(!user) return res.status(400).send("The user does not exist")
+
+        let member = competition.Members.includes(req.body.userId)
+        if(!member){
+            competition.Members.push(req.body.userId)
+            await competition.save()
+            return res.send(formatResult({
+                status:201,
+                message:"Member Added successfully!",
+                data:competition
+            }))
+        }
+        return res.status(400).send("User is already among the members of this competition")
+    }
+    catch(ex){
+        res.status(500).send(ex.message)
     }
 }
