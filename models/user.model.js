@@ -84,6 +84,10 @@ const userSchema = new mongoose.Schema({
         type:Array,
         default:[]
     },
+    Following:{
+        type:Array,
+        default:[]
+    },
     profilePicture:{
         type:String,
         default:'profileUploads/defaultProfilePicture.jpg'
