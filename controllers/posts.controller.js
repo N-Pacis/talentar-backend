@@ -61,7 +61,7 @@ exports.gettingAllPosts = async (req, res) => {
         return res.send(formatResult({
             status: 200,
             message: "Ok",
-            data:posts
+            data: posts
         }))
     }
     catch (err) {
@@ -69,15 +69,59 @@ exports.gettingAllPosts = async (req, res) => {
     }
 }
 
-exports.deletingPost = async (req,res) => {
+exports.gettingUserPosts = async (req, res) => {
     try {
-        const{error} = postValidation(req.body);
+        const posts = await Post.find({ userId: req.params.userId })
+        return res.send(formatResult({
+            status: 200,
+            message: "Ok",
+            data: posts
+        }))
+    }
+    catch (err) {
+        res.send(err)
+    }
+}
+
+exports.gettingFollowArtPosts = async (req, res) => {
+    try {
+        const loggedInUser = req.user.following;
+
+        const posts = await Post.find({ userId: { $in: loggedInUser } })
+        return res.send(formatResult({
+            status: 200,
+            message: "Ok",
+            data: posts
+        }))
+    }
+    catch (err) {
+        res.send(err)
+    }
+}
+
+exports.gettingArtGeneralPosts = async (req, res) => {
+    try {
+        const posts = await Post.find({ Category: "Art" }).sort({ likes: -1 })
+        return res.send(formatResult({
+            status: 200,
+            message: "Ok",
+            data: posts
+        }))
+    }
+    catch (err) {
+        res.send(err)
+    }
+}
+
+exports.deletingPost = async (req, res) => {
+    try {
+        const { error } = postValidation(req.body);
         if (error) return res.send(formatResult({
             status: 400,
             message: error.details[0].message
         }))
         Province.findByIdAndRemove(req.params.id)
-    } 
+    }
     catch (err) {
         res.send(err)
     }
