@@ -3,7 +3,6 @@ const { formatResult } = require("../utils/formatter");
 const _ = require("lodash")
 const debug = require("debug");
 const { Post, postValidation } = require("../models/posts.model");
-const error = debug('error')
 
 
 exports.creatingPost = async (req, res) => {
@@ -18,6 +17,7 @@ exports.creatingPost = async (req, res) => {
         let newPost = new Post(_.pick(req.body, ['caption', 'Category', 'location']))
         newPost.userId = req.user._id;
         newPost.url = req.file.path;
+        newPost.url = ((newPost.url).replace("\\","/")).replace(" ","%20")
 
         try {
             await newPost.save()
@@ -29,12 +29,10 @@ exports.creatingPost = async (req, res) => {
         }
         catch (ex) {
             res.status(400).send(ex.message);
-            error(ex.message)
         }
     }
     catch (ex) {
         res.status(500).send("Something Failed! Try Again!");
-        error(ex)
     }
 }
 

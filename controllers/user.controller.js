@@ -3,26 +3,18 @@ const _= require("lodash")
 const bcrypt = require("bcrypt")
 const debug = require("debug")
 const error = debug('error')
-const fs = require("fs")
 const {sendEmail} = require("../utils/emailConfig.utils");
+const { formatResult } = require("../utils/formatter");
 
 exports.getUserInformation = async(req,res)=>{
    try{
       let user = await User.findById(req.params.userId).select("-Password");
       if(!user) return res.status(404).send("User not found!")
-      res.status(200).send({
-          Firstname:user.firstname,
-          Lastname:user.lastname,
-          Email:user.Email,
-          Username:user.Username,
-          profilePictureUrl:user.profilePicture,
-          Followers:user.Followers.length,
-          Bio:user.Bio,
-          Category:user.Category,
-          Location:user.Location,
-          Status:user.Status,
-          
-      })
+      return res.send(formatResult({
+        status: 200,
+        message: "ok",
+        data: user
+    }))
    }
    catch(ex){
        res.status(400).send(ex.message)
@@ -55,12 +47,10 @@ exports.createUser = async(req,res)=>{
        }
        catch(ex){
            res.status(400).send(ex.message);
-           error(ex.message)
        }
    }
    catch(ex){
        res.status(500).send("Something Failed! Try Again!");
-       error(ex.message)
    }
 }
 
